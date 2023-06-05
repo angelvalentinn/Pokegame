@@ -16,9 +16,10 @@ body {
     background-image: linear-gradient(0deg,
             rgba(0, 0, 0, 0.6),
             rgba(0, 0, 0, 0.4)),
-        url(../assets/background-mobile.jpg);
+        url(../assets/pp.png);
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -231,11 +232,3 @@ img {
     border: 2px dashed rgb(21, 169, 21);
 }
 
-@media screen and (min-width: 588px) {
-    body {
-        background-image: linear-gradient(0deg,
-                rgba(0, 0, 0, 0.6),
-                rgba(0, 0, 0, 0.5)),
-            url(../assets/background.jpg);
-    }
-}

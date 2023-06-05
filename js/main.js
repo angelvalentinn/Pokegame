@@ -12,7 +12,9 @@ async function pedirInfoFetch() {
 
     let vectorIds = []; //Este array es para poder desordenar las areas y no queden todas ordenadas en base a los pokémones
     for(let i = 1; i <=  10; i++) {
-        url =  `https://pokeapi.co/api/v2/pokemon/${v[i-1]}`;
+        url =  `https://pokeapi.co/api/v2/pokemon/${v[i-1]}`; //Petición a pokémon al número que tenga el v en la posicion que diga i-1
+        //(porque el vector comienza en la posición 0 y termina en la longitud - 1). El número que tiene v es el random generado
+
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
         vectorIds.push([resultado.id,resultado.name]); 
