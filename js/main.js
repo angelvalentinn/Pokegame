@@ -118,16 +118,16 @@ function dragAndDrup() {
         msjIndicacion.innerText = "Arrastra y suelta";
     })
 
-    pokemonesContenedor.addEventListener('dragstart', (e) => {
+    pokemonesContenedor.addEventListener('dragstart touchstart', (e) => {
         e.dataTransfer.setData('id',e.target.parentNode.id);
         //Cuando se empieza a arrastrar generamos un dataTransfer con el id del div que contiene la imagen
     })
 
-    areasContenedor.addEventListener('dragover', (e) => {
+    areasContenedor.addEventListener('dragover touchmove', (e) => {
         e.preventDefault(); //Anulamos el comportamiento por defecto del dragover, asi nos permite soltar la información
     })
 
-    areasContenedor.addEventListener('drop', (e) => {
+    areasContenedor.addEventListener('drop touchend', (e) => {
         const dataId = e.dataTransfer.getData('id')
         const areaDrop = e.target;
 
@@ -162,6 +162,7 @@ function dragAndDrup() {
             activeAnimation(btnReload);
         }
     })
+
 
 }
 
