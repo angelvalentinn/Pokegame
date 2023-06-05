@@ -118,16 +118,16 @@ function dragAndDrup() {
         msjIndicacion.innerText = "Arrastra y suelta";
     })
 
-    pokemonesContenedor.addEventListener('dragstart touchstart', (e) => {
+    pokemonesContenedor.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('id',e.target.parentNode.id);
         //Cuando se empieza a arrastrar generamos un dataTransfer con el id del div que contiene la imagen
     })
 
-    areasContenedor.addEventListener('dragover touchmove', (e) => {
+    areasContenedor.addEventListener('dragover', (e) => {
         e.preventDefault(); //Anulamos el comportamiento por defecto del dragover, asi nos permite soltar la información
     })
 
-    areasContenedor.addEventListener('drop touchend', (e) => {
+    areasContenedor.addEventListener('drop', (e) => {
         const dataId = e.dataTransfer.getData('id')
         const areaDrop = e.target;
 
@@ -161,8 +161,52 @@ function dragAndDrup() {
             activeAnimation(msjIndicacion);
             activeAnimation(btnReload);
         }
-    })
 
+        
+    })
+    
+    /* Eventos mobile */
+
+    pokemonesContenedor.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.dataTransfer.setData('id',e.target.parentNode.id);
+    })
+    areasContenedor.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+    })
+    areasContenedor.addEventListener('touchend', (e) => {
+        const dataId = e.dataTransfer.getData('id')
+        const areaDrop = e.target;
+
+        let pokemonElegido;
+
+        for( let i of pokemonesContenedor.children) {
+            if(i.id == dataId) pokemonElegido = i; 
+        }
+        
+        try {
+            if(areaDrop.id == pokemonElegido.id) { 
+                contador++;
+                areaDrop.innerText = "";
+                areaDrop.append(pokemonElegido)
+                msjIndicacion.innerText = "Arrastra y suelta";
+            } else {
+                msjIndicacion.innerText = "¡Pokémon incorrecto!"; 
+                activeAnimation(msjIndicacion);
+            }
+        } catch {
+            msjIndicacion.innerText = "¡Ya está en el lugar correcto!";
+            activeAnimation(msjIndicacion); 
+        }
+        
+        if(contador == 10) {
+            msjIndicacion.innerText = "¡Ganaste!";
+            contador = 0;
+            btnReload.classList.remove('disabled');
+            activeAnimation(msjIndicacion);
+            activeAnimation(btnReload);
+        }
+    })
 
 }
 
