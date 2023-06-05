@@ -164,49 +164,6 @@ function dragAndDrup() {
 
         
     })
-    
-    /* Eventos mobile */
-
-    pokemonesContenedor.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        e.dataTransfer.setData('id',e.target.parentNode.id);
-    })
-    areasContenedor.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-    })
-    areasContenedor.addEventListener('touchend', (e) => {
-        const dataId = e.dataTransfer.getData('id')
-        const areaDrop = e.target;
-
-        let pokemonElegido;
-
-        for( let i of pokemonesContenedor.children) {
-            if(i.id == dataId) pokemonElegido = i; 
-        }
-        
-        try {
-            if(areaDrop.id == pokemonElegido.id) { 
-                contador++;
-                areaDrop.innerText = "";
-                areaDrop.append(pokemonElegido)
-                msjIndicacion.innerText = "Arrastra y suelta";
-            } else {
-                msjIndicacion.innerText = "¡Pokémon incorrecto!"; 
-                activeAnimation(msjIndicacion);
-            }
-        } catch {
-            msjIndicacion.innerText = "¡Ya está en el lugar correcto!";
-            activeAnimation(msjIndicacion); 
-        }
-        
-        if(contador == 10) {
-            msjIndicacion.innerText = "¡Ganaste!";
-            contador = 0;
-            btnReload.classList.remove('disabled');
-            activeAnimation(msjIndicacion);
-            activeAnimation(btnReload);
-        }
-    })
 
 }
 
