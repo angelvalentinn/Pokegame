@@ -1,7 +1,34 @@
 addEventListener('load', () => {
     pedirInfoFetch(); //Nos aseguramos que se haga la petición cuando la página cargue
 })
+
 let vectorIds = [];
+
+const easyMode = document.querySelector('.easy-mode');
+const mediumMode = document.querySelector('.medium-mode');
+const hardMode = document.querySelector('.hard-mode');
+const intentosNum = document.querySelector('.intentos-num');
+
+let intentos = 0;
+
+const difficultyIntentos = {
+    facil: 10,
+    medio: 6,
+    dificil: 3
+}
+
+easyMode.addEventListener('click', () => {
+    intentosNum.innerText = difficultyIntentos.facil;
+})
+mediumMode.addEventListener('click', () => {
+    intentosNum.innerText = difficultyIntentos.medio;
+})
+hardMode.addEventListener('click', () => {
+    intentosNum.innerText = difficultyIntentos.dificil;
+})
+
+intentosNum.innerText = intentosNum.innerText - intentos;
+
 async function pedirInfoFetch() {
     let url = `https://pokeapi.co/api/v2/pokemon/`;
     const v = randomsSinRepetir(1010);
@@ -10,7 +37,7 @@ async function pedirInfoFetch() {
     //Hacemos esto para concatenarlo al final de la URL, y nos devuelva la repuesta del pokémon. Hacemos que no se repitan para que no aparezca el mismo pokémon
     //en las diferentes peticiones. Así en cada petición osea cuando recargamos la página devuelven diferentes pokémones
 
-     //Este array es para poder desordenar las areas y no queden todas ordenadas en base a los pokémones
+    //Este array es para poder desordenar las areas y no queden todas ordenadas en base a los pokémones
     for (let i = 1; i <= 10; i++) {
         url = `https://pokeapi.co/api/v2/pokemon/${v[i - 1]}`; //Petición a pokémon al número que tenga el v en la posicion que diga i-1
         //(porque el vector comienza en la posición 0 y termina en la longitud - 1). El número que tiene v es el random generado
@@ -61,7 +88,7 @@ function cargarProductos(res) { //Función que recibe por parametro la respuesta
 }
 
 function cargarArea(vec) {
-     desordenarAreas(vec);  //Función que recibe el array de ids con los nombres, y los desordena
+    /* desordenarAreas(vec);  */ //Función que recibe el array de ids con los nombres, y los desordena
 
     for (let i of vec) { //Recorremos el array de arrays
         const areasContenedor = document.querySelector('.areas');
@@ -127,6 +154,10 @@ function dragAndDrup() {
     })
 
     areasContenedor.addEventListener('dragover', (e) => {/*  */
+        e.preventDefault();
+    })
+
+    areasContenedor.addEventListener('dragleave', (e) => {/*  */
         e.preventDefault(); //Anulamos el comportamiento por defecto del dragover, asi nos permite soltar la información
     })
 
@@ -146,20 +177,36 @@ function dragAndDrup() {
                 contador++;
                 areaDrop.innerText = "";
                 areaDrop.append(pokemonElegido)
+                areaDrop.style.border = '2px solid var(--clr-green)'
                 msjIndicacion.innerText = "Arrastra y suelta";
             } else {
+                
+                if (areaDrop.hasChildNodes()) {
+                    intentos++;
+                    intentosNum.innerText = intentosNum.innerText - 1;
+                }
+                areaDrop.style.border = '2px dashed var(--clr-red)'
                 msjIndicacion.innerText = "¡Pokémon incorrecto!"; //Sino es porque es incorrecto osea que el que elegimos y arrastramos no coincide con el area
                 activeAnimation(msjIndicacion);
+                
+                if (intentosNum.innerText == 0) {
+                    msjIndicacion.innerText = "";
+                    contador = 0;
+                    btnReload.innerText = 'Perdiste';
+                    btnReload.classList.remove('disabled');
+                    activeAnimation(msjIndicacion);
+                    activeAnimation(btnReload);
+                }
             }
         } catch {
+            areaDrop.style.border = '2px dashed var(--clr-red)'
             msjIndicacion.innerText = "¡Ya está en el lugar correcto!";
             activeAnimation(msjIndicacion);
             //En caso de que queramos intercambiar las imagenes en las areas genera un error y lo controlamos acá
         }
-
         if (contador == 10) {
             confeti()
-            msjIndicacion.innerText = "¡Ganaste!";
+            msjIndicacion.innerText = "";
             contador = 0;
             btnReload.classList.remove('disabled');
             activeAnimation(msjIndicacion);
@@ -211,3 +258,4 @@ const confeti = () => {
         );
     }, 250);
 }
+

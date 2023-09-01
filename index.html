@@ -5,14 +5,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css" />
     <title>Pokemón minijuego | Ángel Altieri</title>
 </head>
 
 <body>
-    <p class="title">¡Adivina el pokémon!</p>
+    <header class="header">
+        <p class="intentos">Intentos: <span class="intentos-num">10</span></p>
+        <h1 class="title">¡Adivina el pokémon!</h1>
+        <article class="difficulty-container">
+            <div class="difficulty-text"> 
+                <p>Elegir la dificultad</p>
+                <i class="bi bi-arrow-bar-down arrow"></i>
+            </div>
+            <ul class="difficulty-ul">
+                <li class="easy-mode">Fácil</li>
+                <li class="medium-mode">Medio</li>
+                <li class="hard-mode">Dificil</li>
+            </ul>
+        </article>
+    </header>
     <div class="container">
-        <p class="loader">Cargando pokemones...</p>
+        <p class="loader block">Cargando pokemones...</p>
         <div class="pokemones" id="pokemones">
             <!-- Se rellena con js -->
         </div>
