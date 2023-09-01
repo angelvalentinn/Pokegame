@@ -2,6 +2,7 @@ addEventListener('load', () => {
     pedirInfoFetch(); //Nos aseguramos que se haga la petición cuando la página cargue
 })
 
+const areasContenedor = document.querySelector('.areas');
 let vectorIds = [];
 
 const easyMode = document.querySelector('.easy-mode');
@@ -18,12 +19,15 @@ const difficultyIntentos = {
 }
 
 easyMode.addEventListener('click', () => {
+    location.reload();
     intentosNum.innerText = difficultyIntentos.facil;
 })
 mediumMode.addEventListener('click', () => {
+    location.reload();
     intentosNum.innerText = difficultyIntentos.medio;
 })
 hardMode.addEventListener('click', () => {
+    location.reload();
     intentosNum.innerText = difficultyIntentos.dificil;
 })
 
@@ -58,6 +62,12 @@ async function pedirInfoFetch() {
     dragAndDrup(); //Función que realiza las acciones del minijuego
 }
 
+const reset = () => {
+    vectorIds = [];
+    areasContenedor.innerHTML = '';
+    pedirInfoFetch();
+}
+
 function cargarProductos(res) { //Función que recibe por parametro la respuesta y carga en el dom cada pokémon
     const pokemonesContainer = document.querySelector(".pokemones");
 
@@ -88,10 +98,9 @@ function cargarProductos(res) { //Función que recibe por parametro la respuesta
 }
 
 function cargarArea(vec) {
-    /* desordenarAreas(vec);  */ //Función que recibe el array de ids con los nombres, y los desordena
+    desordenarAreas(vec);   //Función que recibe el array de ids con los nombres, y los desordena
 
     for (let i of vec) { //Recorremos el array de arrays
-        const areasContenedor = document.querySelector('.areas');
         const div = document.createElement('div');
 
         div.classList.add("area");
@@ -190,6 +199,7 @@ function dragAndDrup() {
                 activeAnimation(msjIndicacion);
                 
                 if (intentosNum.innerText == 0) {
+                    pokemonesContenedor.innerHTML = ''
                     msjIndicacion.innerText = "";
                     contador = 0;
                     btnReload.innerText = 'Perdiste';
