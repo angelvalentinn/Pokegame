@@ -8,3 +8,4 @@ Existen 3 niveles; facil - 10, medio - 8, dificil - 3 intentos *
 * <img src="https://img.shields.io/badge/css-2e90f7?style=for-the-badge&logo=css&logoColor=white">
 * <img src="https://img.shields.io/badge/javascript-efd81d?style=for-the-badge&logo=javascript&logoColor=fff">
 * <img src="https://img.shields.io/badge/pokeapi-ef5350?style=for-the-badge&logo=pokemon&logoColor=fff">
+* <img src="https://img.shields.io/badge/pokeapi-ef5350?style=for-the-badge&logo=api drag & drop&logoColor=fff">
