@@ -1,7 +1,7 @@
 addEventListener('load', () => {
     pedirInfoFetch(); //Nos aseguramos que se haga la petición cuando la página cargue
 })
-
+let vectorIds = [];
 async function pedirInfoFetch() {
     let url = `https://pokeapi.co/api/v2/pokemon/`;
     const v = randomsSinRepetir(1010);
@@ -10,7 +10,7 @@ async function pedirInfoFetch() {
     //Hacemos esto para concatenarlo al final de la URL, y nos devuelva la repuesta del pokémon. Hacemos que no se repitan para que no aparezca el mismo pokémon
     //en las diferentes peticiones. Así en cada petición osea cuando recargamos la página devuelven diferentes pokémones
 
-    let vectorIds = []; //Este array es para poder desordenar las areas y no queden todas ordenadas en base a los pokémones
+     //Este array es para poder desordenar las areas y no queden todas ordenadas en base a los pokémones
     for (let i = 1; i <= 10; i++) {
         url = `https://pokeapi.co/api/v2/pokemon/${v[i - 1]}`; //Petición a pokémon al número que tenga el v en la posicion que diga i-1
         //(porque el vector comienza en la posición 0 y termina en la longitud - 1). El número que tiene v es el random generado
@@ -61,7 +61,7 @@ function cargarProductos(res) { //Función que recibe por parametro la respuesta
 }
 
 function cargarArea(vec) {
-    /* desordenarAreas(vec); */ //Función que recibe el array de ids con los nombres, y los desordena
+     desordenarAreas(vec);  //Función que recibe el array de ids con los nombres, y los desordena
 
     for (let i of vec) { //Recorremos el array de arrays
         const areasContenedor = document.querySelector('.areas');
@@ -126,7 +126,7 @@ function dragAndDrup() {
         //Cuando se empieza a arrastrar generamos un dataTransfer con el id del div que contiene la imagen
     })
 
-    areasContenedor.addEventListener('dragover', (e) => {
+    areasContenedor.addEventListener('dragover', (e) => {/*  */
         e.preventDefault(); //Anulamos el comportamiento por defecto del dragover, asi nos permite soltar la información
     })
 
