@@ -2,6 +2,7 @@ addEventListener('load', () => {
     pedirInfoFetch(); //Nos aseguramos que se haga la petición cuando la página cargue
 })
 
+
 const areasContenedor = document.querySelector('.areas');
 let vectorIds = [];
 
@@ -18,20 +19,24 @@ const difficultyIntentos = {
     dificil: 3
 }
 
+const ls = JSON.parse( localStorage.getItem("dificultad") ) || 1;
+
 easyMode.addEventListener('click', () => {
+    localStorage.setItem("dificultad",1);
     location.reload();
-    intentosNum.innerText = difficultyIntentos.facil;
 })
 mediumMode.addEventListener('click', () => {
+    localStorage.setItem("dificultad",2);
     location.reload();
-    intentosNum.innerText = difficultyIntentos.medio;
 })
 hardMode.addEventListener('click', () => {
+    localStorage.setItem("dificultad",3);
     location.reload();
-    intentosNum.innerText = difficultyIntentos.dificil;
 })
 
-intentosNum.innerText = intentosNum.innerText - intentos;
+
+
+intentosNum.innerText = ls == 1 ? difficultyIntentos.facil : ls == 2 ?  difficultyIntentos.medio : difficultyIntentos.dificil - intentos;
 
 async function pedirInfoFetch() {
     let url = `https://pokeapi.co/api/v2/pokemon/`;
@@ -62,11 +67,6 @@ async function pedirInfoFetch() {
     dragAndDrup(); //Función que realiza las acciones del minijuego
 }
 
-const reset = () => {
-    vectorIds = [];
-    areasContenedor.innerHTML = '';
-    pedirInfoFetch();
-}
 
 function cargarProductos(res) { //Función que recibe por parametro la respuesta y carga en el dom cada pokémon
     const pokemonesContainer = document.querySelector(".pokemones");
