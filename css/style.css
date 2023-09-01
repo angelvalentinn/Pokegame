@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Monomaniac+One&family=VT323&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Monomaniac+One&family=VT323&display=swap");
 
 * {
     margin: 0;
@@ -8,7 +8,7 @@
 
 :root {
     --clr-b: #222;
-    --clr-w: #ccc;
+    --clr-w: #ddd;
 }
 
 body {
@@ -24,7 +24,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: 'Monomaniac One', sans-serif;
+    font-family: "Monomaniac One", sans-serif;
     color: var(--clr-w);
 }
 
@@ -39,14 +39,23 @@ img {
 }
 
 .title {
+    position: absolute;
+    top: 20px;
     font-size: 2.5rem;
-    -webkit-animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
-    animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    letter-spacing: 1px;
+    -webkit-animation: slide-in-blurred-left 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation: slide-in-blurred-left 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 .img-div {
     height: 80x;
     width: 80px;
+    cursor: pointer;
+    transition: 0.2s ease all;
+}
+
+.img-div:hover {
+    transform: scale(1.05);
 }
 
 .pokemones {
@@ -54,7 +63,11 @@ img {
     flex-wrap: wrap;
     justify-content: center;
     user-select: none;
-    
+    column-gap: 10px;
+}
+
+.loader {
+    font-size: 2rem;
 }
 
 @-webkit-keyframes slide-in-blurred-left {
@@ -105,13 +118,13 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: .5rem;
+    gap: 0.5rem;
     padding-block: 1rem;
 }
 
 .indicacion {
-    font-size: 1.3rem;
-    -webkit-animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    font-size: 1.5rem;
+    -webkit-animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
     animation: none;
 }
 
@@ -184,11 +197,11 @@ img {
 }
 
 .btn-recargar {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     border: none;
     color: #fff;
     background-color: rgb(23, 167, 23);
-    padding: .8rem 2rem;
+    padding: 0.8rem 2rem;
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 2px;
@@ -200,7 +213,7 @@ img {
 
 .btn-next:hover {
     background-color: rgba(23, 167, 23, 0.724);
-    transition: .4s ease;
+    transition: 0.4s ease;
 }
 
 .areas {
@@ -210,7 +223,6 @@ img {
     gap: 1rem;
     flex-wrap: wrap;
     border: none !important;
-    
 }
 
 .area {
@@ -221,9 +233,9 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-inline: .5rem;
+    padding-inline: 0.5rem;
     font-size: 1.1rem;
-    background-color: rgba(0, 0, 0, .14);
+    background-color: rgba(0, 0, 0, 0.14);
     user-select: none;
     cursor: pointer;
 }
@@ -232,3 +244,84 @@ img {
     border: 2px dashed rgb(21, 169, 21);
 }
 
+.cta {
+    display: flex;
+    padding: 8px 22px;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    color: #fff;
+    background: rgb(22, 148, 22);
+    transition: 1s;
+    box-shadow: 6px 6px 0 black;
+    transform: skewX(-15deg);
+    border: none;
+}
+
+.cta:focus {
+    outline: none;
+}
+
+.cta:hover {
+    transition: 0.5s;
+    box-shadow: 10px 10px 0 #fbc638;
+}
+
+.cta .second {
+    transition: 0.5s;
+    margin-right: 0px;
+}
+
+.cta:hover .second {
+    transition: 0.5s;
+    margin-right: 45px;
+}
+
+.span {
+    transform: skewX(15deg);
+}
+
+.second {
+    width: 20px;
+    margin-left: 30px;
+    position: relative;
+    top: 12%;
+}
+
+.one {
+    transition: 0.4s;
+    transform: translateX(-60%);
+}
+
+.two {
+    transition: 0.5s;
+    transform: translateX(-30%);
+}
+
+.cta:hover .three {
+    animation: color_anim 1s infinite 0.2s;
+}
+
+.cta:hover .one {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.6s;
+}
+
+.cta:hover .two {
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.4s;
+}
+
+@keyframes color_anim {
+    0% {
+        fill: white;
+    }
+
+    50% {
+        fill: #fbc638;
+    }
+
+    100% {
+        fill: white;
+    }
+}

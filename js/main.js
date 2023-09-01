@@ -3,25 +3,28 @@ addEventListener('load', () => {
 })
 
 async function pedirInfoFetch() {
-    let url =  `https://pokeapi.co/api/v2/pokemon/`;
-    const v = randomsSinRepetir(1010); 
-    
+    let url = `https://pokeapi.co/api/v2/pokemon/`;
+    const v = randomsSinRepetir(1010);
+
     //Por parámetro le pasamos el random máximo. El mínimo va a ser 1, el primer pokémon empieza con 1.
     //Hacemos esto para concatenarlo al final de la URL, y nos devuelva la repuesta del pokémon. Hacemos que no se repitan para que no aparezca el mismo pokémon
     //en las diferentes peticiones. Así en cada petición osea cuando recargamos la página devuelven diferentes pokémones
 
     let vectorIds = []; //Este array es para poder desordenar las areas y no queden todas ordenadas en base a los pokémones
-    for(let i = 1; i <=  10; i++) {
-        url =  `https://pokeapi.co/api/v2/pokemon/${v[i-1]}`; //Petición a pokémon al número que tenga el v en la posicion que diga i-1
+    for (let i = 1; i <= 10; i++) {
+        url = `https://pokeapi.co/api/v2/pokemon/${v[i - 1]}`; //Petición a pokémon al número que tenga el v en la posicion que diga i-1
         //(porque el vector comienza en la posición 0 y termina en la longitud - 1). El número que tiene v es el random generado
 
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
-        vectorIds.push([resultado.id,resultado.name]); 
-        
+        vectorIds.push([resultado.id, resultado.name]);
+
         //Pusheamos del pokémon elegido aleaotoriamente el id y el nombre en un array dentro de vectorIds
         //Mandamos el nombre  para poder añadirselo al nombre de cada area y el id para ponerle un id y despues con drag an drop capturar en caso que hayamos acertado
-
+        if (vectorIds.length === 10) {
+            const loading = document.querySelector('.loader')
+            loading.style.display = 'none'
+        }
         cargarProductos(resultado); //Función que carga los productos en el DOM
     }
     cargarArea(vectorIds); //Función que carga las areas, recibe como parámetro  el vectorIds para poder desordenarlo y que las areas queden desordenadas
@@ -29,7 +32,7 @@ async function pedirInfoFetch() {
 }
 
 function cargarProductos(res) { //Función que recibe por parametro la respuesta y carga en el dom cada pokémon
-    const pokemonesContainer = document.querySelector(".pokemones"); 
+    const pokemonesContainer = document.querySelector(".pokemones");
 
     const div = document.createElement('div');
     div.classList.add("img-div");
@@ -42,14 +45,14 @@ function cargarProductos(res) { //Función que recibe por parametro la respuesta
     //Estas condiciones son porque hay algunos pokémones en la api que no tienen imagenes nulas entonces la que no sea nula la pongo como src
     //No pude recorrerlo con un for each 
 
-    if(sprites.back_default !== null) img.src = res.sprites.back_default;
-    else if(sprites.back_female !== null) img.src = res.sprites.back_female;
-    else if(sprites.back_shiny !== null) img.src = res.sprites.back_shiny; 
-    else if(sprites.back_shiny_female !== null) img.src = res.sprites.back_shiny_female;
-    else if(sprites.front_default !== null) img.src = res.sprites.front_default;
-    else if(sprites.front_female !== null) img.src = res.sprites.front_female;
-    else if(sprites.front_shiny !== null) img.src = res.sprites.front_shiny;
-    else if(sprites.front_shiny_female !== null) img.src = res.sprites.front_shiny_female;
+    if (sprites.back_default !== null) img.src = res.sprites.back_default;
+    else if (sprites.back_female !== null) img.src = res.sprites.back_female;
+    else if (sprites.back_shiny !== null) img.src = res.sprites.back_shiny;
+    else if (sprites.back_shiny_female !== null) img.src = res.sprites.back_shiny_female;
+    else if (sprites.front_default !== null) img.src = res.sprites.front_default;
+    else if (sprites.front_female !== null) img.src = res.sprites.front_female;
+    else if (sprites.front_shiny !== null) img.src = res.sprites.front_shiny;
+    else if (sprites.front_shiny_female !== null) img.src = res.sprites.front_shiny_female;
 
     div.append(img);
 
@@ -58,20 +61,20 @@ function cargarProductos(res) { //Función que recibe por parametro la respuesta
 }
 
 function cargarArea(vec) {
-    desordenarAreas(vec); //Función que recibe el array de ids con los nombres, y los desordena
-    
-    for(let i of vec) { //Recorremos el array de arrays
+    /* desordenarAreas(vec); */ //Función que recibe el array de ids con los nombres, y los desordena
+
+    for (let i of vec) { //Recorremos el array de arrays
         const areasContenedor = document.querySelector('.areas');
         const div = document.createElement('div');
-        
+
         div.classList.add("area");
         div.id = i[0]; //El array en la posición 0  tiene el id del pokémon
-    
+
         div.innerText = i[1];  //El array en la posición 1 tiene el nombre del pokémon
-    
+
         areasContenedor.append(div);
     }
-    
+
 }
 
 function desordenarAreas(array) {
@@ -90,16 +93,16 @@ function randomsSinRepetir(rand) { //Algoritmo que genera un random entre 1 y un
     let random;
     let repeat;
 
-    for(let i=0; i<10; i++) {
-        
+    for (let i = 0; i < 10; i++) {
+
         do {
 
             random = Math.ceil(Math.random() * rand); //Generamos un random
             repeat = vector.some(indice => indice == random); //Si se encuentra en el array devuelve true
-            if(repeat == false) vector[i] = random; //si es false es porque no se encuentra y se asigna el random en la posición en la que estemos
-            
-        } while(repeat); //Si se repite no se asigna y y vuelve a ejecutarse el bucle
-        
+            if (repeat == false) vector[i] = random; //si es false es porque no se encuentra y se asigna el random en la posición en la que estemos
+
+        } while (repeat); //Si se repite no se asigna y y vuelve a ejecutarse el bucle
+
     }
     return vector;
 }
@@ -119,7 +122,7 @@ function dragAndDrup() {
     })
 
     pokemonesContenedor.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('id',e.target.parentNode.id);
+        e.dataTransfer.setData('id', e.target.parentNode.id);
         //Cuando se empieza a arrastrar generamos un dataTransfer con el id del div que contiene la imagen
     })
 
@@ -133,12 +136,12 @@ function dragAndDrup() {
 
         let pokemonElegido;
 
-        for( let i of pokemonesContenedor.children) {
-            if(i.id == dataId) pokemonElegido = i; //Capturamos el pokémon que elegimos una vez que soltamos en el area
+        for (let i of pokemonesContenedor.children) {
+            if (i.id == dataId) pokemonElegido = i; //Capturamos el pokémon que elegimos una vez que soltamos en el area
         }
-        
+
         try {
-            if(areaDrop.id == pokemonElegido.id) { //Si el pokémon que elegimos o mejor dicho agarramos y arrastramos coincide con el id
+            if (areaDrop.id == pokemonElegido.id) { //Si el pokémon que elegimos o mejor dicho agarramos y arrastramos coincide con el id
                 //del area es porque es el correcto y lo appendeamos y usamos un contador que cuando se appenden todos en su respectiva area es porque ganamos
                 contador++;
                 areaDrop.innerText = "";
@@ -150,11 +153,12 @@ function dragAndDrup() {
             }
         } catch {
             msjIndicacion.innerText = "¡Ya está en el lugar correcto!";
-            activeAnimation(msjIndicacion); 
+            activeAnimation(msjIndicacion);
             //En caso de que queramos intercambiar las imagenes en las areas genera un error y lo controlamos acá
         }
-        
-        if(contador == 10) {
+
+        if (contador == 10) {
+            confeti()
             msjIndicacion.innerText = "¡Ganaste!";
             contador = 0;
             btnReload.classList.remove('disabled');
@@ -162,14 +166,48 @@ function dragAndDrup() {
             activeAnimation(btnReload);
         }
 
-        
+
     })
 
 }
 
 function activeAnimation(msjIndicacion) {
     msjIndicacion.style.animation = "none";
-        setTimeout(()=> {   //Función para activar animación de atención 
-            msjIndicacion.style.animation = "shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both";
-        },0);
+    setTimeout(() => {   //Función para activar animación de atención 
+        msjIndicacion.style.animation = "shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both";
+    }, 0);
+}
+
+const confeti = () => {
+    const duration = 15 * 150,
+        animationEnd = Date.now() + duration,
+        defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+
+        // since particles fall down, start a bit higher than random
+        confetti(
+            Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            })
+        );
+        confetti(
+            Object.assign({}, defaults, {
+                particleCount,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            })
+        );
+    }, 250);
 }
